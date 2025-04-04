@@ -7,13 +7,14 @@ import { InteractiveBarChart, InteractiveLineChart } from '@/app/dashboard/compo
 import RawDataTable from '@/app/dashboard/components/RawDataTable';
 import FiltersPanel, { RawRecordFilters } from '@/app/dashboard/components/FiltersPanel';
 import AggregatedCards from '@/app/dashboard/components/AggregatedCards';
+import { Suspense } from 'react';
 
 export interface AggregatedData {
     time_series: { year: number; count: number }[];
     sales_by_car_model: { car_model: string; total_sales: number }[];
 }
 
-const AnalyticsPage: React.FC = () => {
+const AnalyticsPageContent: React.FC = () => {
     const searchParams = useSearchParams();
     const queryTaskParam = searchParams.get('task');
     const [selectedTaskId, setSelectedTaskId] = useState<number | null>(
@@ -247,5 +248,12 @@ const AnalyticsPage: React.FC = () => {
     );
 };
 
-export default AnalyticsPage;
+
+export default function AnalyticsPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <AnalyticsPageContent />
+        </Suspense>
+    );
+}
 

@@ -11,6 +11,7 @@ def process_task(app, task_id, from_date, to_date, source_a, source_b, car_model
     """
     with app.app_context():
         # Retrieve the task and update its status to "in progress"
+        time.sleep(5)
         task = Task.query.get(task_id)
         if not task:
             return
@@ -19,7 +20,7 @@ def process_task(app, task_id, from_date, to_date, source_a, source_b, car_model
         socketio.emit('task_update', {"id": task.id, "status": task.status})
 
         # Simulate processing delay (e.g., 20 seconds)
-        time.sleep(20)
+        time.sleep(10)
 
         records_to_insert = []
         if source_a:
